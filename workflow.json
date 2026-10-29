@@ -143,13 +143,11 @@
       "parameters": {
         "method": "POST",
         "url": "https://api.brevo.com/v3/contacts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            {
-              "name": "api-key",
-              "value": "YOUR_BREVO_API_KEY"
-            },
             {
               "name": "Content-Type",
               "value": "application/json"
@@ -170,19 +168,23 @@
       "id": "caa65ebe-26f3-4477-9af0-93876fe77d4a",
       "name": "brevo_iman",
       "retryOnFail": true,
-      "waitBetweenTries": 3000
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Brevo API key"
+        }
+      }
     },
     {
       "parameters": {
         "method": "POST",
         "url": "https://api.brevo.com/v3/contacts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            {
-              "name": "api-key",
-              "value": "YOUR_BREVO_API_KEY"
-            },
             {
               "name": "Content-Type",
               "value": "application/json"
@@ -203,19 +205,23 @@
       "id": "d24d1989-7bb0-45da-b623-0da42c8fd68f",
       "name": "brevo_artista",
       "retryOnFail": true,
-      "waitBetweenTries": 3000
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Brevo API key"
+        }
+      }
     },
     {
       "parameters": {
         "method": "POST",
         "url": "https://api.brevo.com/v3/contacts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            {
-              "name": "api-key",
-              "value": "YOUR_BREVO_API_KEY"
-            },
             {
               "name": "Content-Type",
               "value": "application/json"
@@ -236,7 +242,13 @@
       "id": "7a91b882-18a9-4f2f-8b70-23ed79631509",
       "name": "brevo_marcas",
       "retryOnFail": true,
-      "waitBetweenTries": 3000
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Brevo API key"
+        }
+      }
     },
     {
       "parameters": {
@@ -648,13 +660,11 @@
       "parameters": {
         "method": "POST",
         "url": "https://api.brevo.com/v3/contacts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            {
-              "name": "api-key",
-              "value": "YOUR_BREVO_API_KEY"
-            },
             {
               "name": "Content-Type",
               "value": "application/json"
@@ -673,7 +683,13 @@
         768
       ],
       "id": "df1dc9c3-c207-42aa-ab89-81e325852f51",
-      "name": "brevo_podcashter"
+      "name": "brevo_podcashter",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Brevo API key"
+        }
+      }
     }
   ],
   "connections": {
