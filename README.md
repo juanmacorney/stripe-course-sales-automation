@@ -2,7 +2,8 @@
 
 An n8n workflow I built for a content creator who sells online courses. Every successful Stripe payment now updates her finance sheet, adds the buyer to the right email list and, for some courses, sends a welcome email, with no manual work.
 
-![Uploading image_workflow.jpg…]()
+<img width="763" height="552" alt="image_workflow" src="https://github.com/user-attachments/assets/8b840d29-bb4a-4e9f-8a0f-f0c0406376f0" />
+
 
 
 ## Context
