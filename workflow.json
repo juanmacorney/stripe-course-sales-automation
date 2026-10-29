@@ -1,0 +1,769 @@
+{
+  "name": "stripe_courses_sales_automation",
+  "nodes": [
+    {
+      "parameters": {
+        "events": [
+          "payment_intent.succeeded"
+        ]
+      },
+      "type": "n8n-nodes-base.stripeTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        368
+      ],
+      "id": "369ad7e2-8a9c-40b1-8dd4-c9a529fd722d",
+      "name": "stripe_payment",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "stripeApi": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Stripe account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.curso }}",
+                    "rightValue": "artista",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "f602d8fe-8d52-4a6c-b5d2-ede58cfd5fd1"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "vende_artista"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b79b783b-b1de-4602-acba-59c98d66527b",
+                    "leftValue": "={{ $json.curso }}",
+                    "rightValue": "imán",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "metodo_iman"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "1e9a6732-4cfa-499d-b98f-d52a8252e6f9",
+                    "leftValue": "={{ $json.curso }}",
+                    "rightValue": "marcas",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "colabora_marcas"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ce33f016-23d6-490d-b593-370546ec1670",
+                    "leftValue": "={{ $json.curso }}",
+                    "rightValue": "podcashter",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "podcashter"
+            }
+          ]
+        },
+        "options": {
+          "allMatchingOutputs": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        448
+      ],
+      "id": "03f92b5d-f742-4486-8039-c993f933e3c1",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/contacts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api-key",
+              "value": "YOUR_BREVO_API_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "= {\n    \"email\": \"{{ $json.email }}\",\n    \"listIds\": [22],\n    \"updateEnabled\": true\n  }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        896,
+        576
+      ],
+      "id": "caa65ebe-26f3-4477-9af0-93876fe77d4a",
+      "name": "brevo_iman",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/contacts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api-key",
+              "value": "YOUR_BREVO_API_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "= {\n    \"email\": \"{{ $json.email }}\",\n    \"listIds\": [29],\n    \"updateEnabled\": true\n  }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        896,
+        0
+      ],
+      "id": "d24d1989-7bb0-45da-b623-0da42c8fd68f",
+      "name": "brevo_artista",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/contacts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api-key",
+              "value": "YOUR_BREVO_API_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "= {\n    \"email\": \"{{ $json.email }}\",\n    \"listIds\": [33],\n    \"updateEnabled\": true\n  }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        896,
+        960
+      ],
+      "id": "7a91b882-18a9-4f2f-8b70-23ed79631509",
+      "name": "brevo_marcas",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "Welcome to the course",
+        "message": "=<!DOCTYPE html>\n<html lang=\"es\">\n<head><meta charset=\"UTF-8\"><title>Welcome</title></head>\n<body style=\"margin:0; padding:0; background-color:#f4f4f4;\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n<tr><td align=\"center\" style=\"padding:24px 10px;\">\n  <table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#ffffff; border-radius:12px;\">\n    <tr><td style=\"padding:32px 40px; font-family:Arial, Helvetica, sans-serif; font-size:16px; line-height:26px; color:#333333;\">\n      <h1 style=\"margin:0 0 16px 0; font-size:28px;\">Hola {{ $json.name }}!</h1>\n      <p style=\"margin:0 0 16px 0;\"><strong>Welcome to the course.</strong> This message has everything you need to get started.</p>\n      <p style=\"margin:0 0 24px 0;\">Please fill in the enrollment form so we can get to know you better:</p>\n      <a href=\"https://example.com/YOUR_FORM_LINK\" target=\"_blank\" style=\"display:inline-block; padding:12px 22px; background-color:#222222; color:#ffffff; font-weight:bold; text-decoration:none; border-radius:8px;\">Complete the form</a>\n      <p style=\"margin:24px 0 8px 0;\">Join the community group:</p>\n      <a href=\"https://t.me/YOUR_GROUP_LINK\" target=\"_blank\" style=\"color:#222222;\">Join the group</a>\n    </td></tr>\n  </table>\n</td></tr>\n</table>\n</body>\n</html>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        192
+      ],
+      "id": "8ee43145-02ba-4b38-923f-1edd96ec1f30",
+      "name": "email_bienvenida_iman",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "customer",
+        "customerId": "={{ $json.data.object.customer }}"
+      },
+      "type": "n8n-nodes-base.stripe",
+      "typeVersion": 1,
+      "position": [
+        224,
+        368
+      ],
+      "id": "4e3f8985-4f2a-4591-a000-46176a6b5d01",
+      "name": "customer",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "stripeApi": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Stripe account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4dab0f72-9693-4704-b07e-7ffdddd95075",
+              "name": "curso",
+              "value": "={{ $('stripe_payment').first().json.data.object.description.trim().toLowerCase() }}",
+              "type": "string"
+            },
+            {
+              "id": "202e2535-10f4-4d9b-8dd5-8179cfc2d8a9",
+              "name": "fecha",
+              "value": "={{ DateTime.fromSeconds($('stripe_payment').first().json.data.object.created).setZone('America/Montevideo').toFormat('yyyy-MM-dd') }}",
+              "type": "string"
+            },
+            {
+              "id": "1f351e9c-8245-4626-8c78-cdc3e70c3157",
+              "name": "precio",
+              "value": "={{ $('stripe_payment').first().json.data.object.amount / 100 }}",
+              "type": "string"
+            },
+            {
+              "id": "ded0c434-0f51-4737-96c6-69ad08c35c18",
+              "name": "moneda",
+              "value": "={{ $('stripe_payment').first().json.data.object.currency.toUpperCase() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        448,
+        368
+      ],
+      "id": "41ec4670-be25-4ed3-a868-69d144200d66",
+      "name": "edit_fields"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SPREADSHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Finance sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "YOUR_SHEET_GID",
+          "mode": "list",
+          "cachedResultName": "Sheet 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Fecha": "={{ $json.fecha }}",
+            "Clienta / Marca": "={{ $json.name }}",
+            "Categoría": "Programas",
+            "Producto o detalle": "={{ $json.curso }}",
+            "Moneda": "={{ $json.moneda }}",
+            "Importe cobrado": "={{ $json.precio }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Fecha",
+              "displayName": "Fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Mes",
+              "displayName": "Mes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Clienta / Marca",
+              "displayName": "Clienta / Marca",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "País",
+              "displayName": "País",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Categoría",
+              "displayName": "Categoría",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Producto o detalle",
+              "displayName": "Producto o detalle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Moneda",
+              "displayName": "Moneda",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Importe cobrado",
+              "displayName": "Importe cobrado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TC",
+              "displayName": "TC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total UYU",
+              "displayName": "Total UYU",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total USD",
+              "displayName": "Total USD",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "¿Lleva IVA?",
+              "displayName": "¿Lleva IVA?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "IVA incluido",
+              "displayName": "IVA incluido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Neto sin IVA",
+              "displayName": "Neto sin IVA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Medio de cobro",
+              "displayName": "Medio de cobro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Estado del cobro",
+              "displayName": "Estado del cobro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Estado de la factura",
+              "displayName": "Estado de la factura",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Comprobante que corresponde",
+              "displayName": "Comprobante que corresponde",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cuota",
+              "displayName": "Cuota",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Notas",
+              "displayName": "Notas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        672,
+        256
+      ],
+      "id": "08ee7151-806f-4fa9-bddb-2edde03f62f3",
+      "name": "planilla_finanzas",
+      "retryOnFail": true,
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SPREADSHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Live sessions sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "YOUR_SHEET_GID",
+          "mode": "list",
+          "cachedResultName": "Sheet 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Fecha inscripción": "={{ $json.fecha }}",
+            "Nombre": "={{ $json.name }}",
+            "Mail": "={{ $json.email }}",
+            "Vivos restantes": "6"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Fecha inscripción",
+              "displayName": "Fecha inscripción",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Mail",
+              "displayName": "Mail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Vivos restantes",
+              "displayName": "Vivos restantes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        896,
+        384
+      ],
+      "id": "814c6d9b-fad8-4d86-9234-f8e601bd8304",
+      "name": "vivos",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/contacts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api-key",
+              "value": "YOUR_BREVO_API_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "= {\n    \"email\": \"{{ $json.email }}\",\n    \"listIds\": [35],\n    \"updateEnabled\": true\n  }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        896,
+        768
+      ],
+      "id": "df1dc9c3-c207-42aa-ab89-81e325852f51",
+      "name": "brevo_podcashter"
+    }
+  ],
+  "connections": {
+    "stripe_payment": {
+      "main": [
+        [
+          {
+            "node": "customer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "brevo_artista",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "brevo_iman",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "email_bienvenida_iman",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "vivos",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "brevo_marcas",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "brevo_podcashter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "customer": {
+      "main": [
+        [
+          {
+            "node": "edit_fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "edit_fields": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "planilla_finanzas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "nodeGroups": [],
+  "id": "YOUR_WORKFLOW_ID",
+  "tags": []
+}
